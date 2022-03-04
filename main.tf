@@ -19,6 +19,7 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+  profile = "armcknight"
 }
 
 resource "random_pet" "lambda_bucket_name" {
