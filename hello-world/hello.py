@@ -1,7 +1,8 @@
 import os
 import json
 
-def lambda_handler(event, context):
+# this function can be named anything, just make sure to supply it to the terraform instruction aws_lambda_function.handler
+def handler(event, context):
     json_region = os.environ['AWS_REGION']
     return {
         "statusCode": 200,
