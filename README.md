@@ -26,5 +26,9 @@ curl "$(terraform output -raw base_url)/hello"
 
 ## Other references
 
+More about lambda + api gateways:
 - _Tutorial: Using Lambda with API Gateway_: https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway-tutorial.html
+
+More about RDS:
 - _Tutorial: Configuring a Lambda function to access Amazon RDS in an Amazon VPC_: https://docs.aws.amazon.com/lambda/latest/dg/services-rds-tutorial.html
+- _Manage AWS RDS Instances_: https://learn.hashicorp.com/tutorials/terraform/aws-rds?in=terraform/aws
