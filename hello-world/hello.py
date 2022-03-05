@@ -4,7 +4,6 @@ import json
 # this function can be named anything, just make sure to supply it to the terraform instruction aws_lambda_function.handler
 def handler(event, context):
     json_region = os.environ['AWS_REGION']
-    logger.info(f'{event=}')
     # if event.queryStringParameters is not None and event.queryStringParameters['Name'] is not None:
     #     responseMessage = 'Hello, ' + event.queryStringParameters['Name'] + '!';
     # else:
@@ -16,6 +15,6 @@ def handler(event, context):
         },
         'body': json.dumps({
             'Region ': json_region,
-            'message': 'Hello, world!',
+            'message': f'{event=}',
         }),
     }
