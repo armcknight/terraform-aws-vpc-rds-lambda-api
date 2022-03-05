@@ -21,3 +21,9 @@ aws lambda invoke --function-name=$(terraform output -raw function_name) respons
 ```
 
 and then `cat response.json` to make sure the expected response was received.
+
+- After creating the API gateway, query the endpoint to cause the lambda function to be executed:
+
+```shell
+curl "$(terraform output -raw base_url)/hello"
+```
