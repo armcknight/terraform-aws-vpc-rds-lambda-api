@@ -22,7 +22,9 @@ provider "aws" {
   profile = "armcknight"
 }
 
+#
 # create bucket to hold exported lambda function
+#
 
 resource "random_pet" "lambda_bucket_name" {
   prefix = "learn-terraform-functions"
@@ -39,7 +41,9 @@ resource "aws_s3_bucket_acl" "lambda_bucket_acl" {
   acl = "private"
 }
 
+#
 # export lambda function
+#
 
 data "archive_file" "lambda_hello_world" {
   type = "zip"
@@ -54,7 +58,9 @@ resource "aws_s3_object" "lambda_hello_world" {
   etag = filemd5(data.archive_file.lambda_hello_world.output_path)
 }
 
+#
 # create lambda function on AWS
+#
 
 resource "aws_lambda_function" "hello_world" {
   function_name = "HelloWorld"
@@ -92,7 +98,9 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" # an AWS managed policy that allows your Lambda function to write to CloudWatch logs; see https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html#permissions-executionrole-features
 }
 
+#
 # create the API gateway
+#
 
 resource "aws_apigatewayv2_api" "lambda" {
   name          = "serverless_lambda_gw"
@@ -146,3 +154,15 @@ resource "aws_lambda_permission" "api_gw" {
   principal     = "apigateway.amazonaws.com"
   source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
 }
+
+#
+# create DNS route for the API gateway endpoint to something more memorable under mcknight.rocks
+#
+
+# TODO
+
+#
+# create the RDS-managed database
+#
+
+# TODO

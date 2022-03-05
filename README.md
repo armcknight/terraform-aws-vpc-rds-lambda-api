@@ -29,6 +29,12 @@ curl "$(terraform output -raw base_url)/hello"
 ```shell
 curl "$(terraform output -raw base_url)/hello?Name=Terraform"
 ```
+
+## TODO
+
+- Set up DNS to allow a URL like https://something.mcknight.rocks/something instead of the default API gateway URL (e.g. https://6e074kbkl4.execute-api.us-east-1.amazonaws.com/serverless_lambda_stage)
+- set up RDS-managed database and do some simple record insertions from the lambda (maybe the number of times it has been called so far, returning the current count in the HTTP response and incrementing it in the db)
+
 ## Other references
 
 More about lambda + api gateways:
