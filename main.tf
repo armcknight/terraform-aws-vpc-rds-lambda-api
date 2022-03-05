@@ -23,6 +23,73 @@ provider "aws" {
 }
 
 #
+# set up a VPC
+#
+
+# Create the VPC
+resource "aws_vpc" "test_vpc" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+}
+
+# Create Internet Gateway and attach it to VPC
+resource "aws_internet_gateway" "vpc_igw" {
+  vpc_id =  aws_vpc.test_vpc.id
+}
+
+# Create Public Subnet
+resource "aws_subnet" "vpc_public_subnet" {
+  vpc_id =  aws_vpc.test_vpc.id
+  cidr_block = "${var.public_subnets}"
+}
+
+resource "aws_eip" "vpc_nat_eip" {
+  vpc   = true
+}
+
+# Create the NAT Gateway using subnet_id and allocation_id
+resource "aws_nat_gateway" "vpc_natgw" {
+  allocation_id = aws_eip.vpc_nat_eip.id
+  subnet_id = aws_subnet.vpc_public_subnet.id
+}
+
+# Create Private Subnet
+resource "aws_subnet" "vpc_private_subnet" {
+  vpc_id =  aws_vpc.test_vpc.id
+  cidr_block = "${var.private_subnets}"
+}
+
+# Route table for Public Subnet
+resource "aws_route_table" "vpc_public_route_table" {
+  vpc_id =  aws_vpc.test_vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.vpc_igw.id
+  }
+}
+
+# Route table for Private Subnet's
+resource "aws_route_table" "vpc_private_route_table" {
+  vpc_id = aws_vpc.test_vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.vpc_natgw.id
+  }
+}
+
+# Route table Association with Public Subnet
+resource "aws_route_table_association" "vpc_public_subnet_route_table_assoc" {
+  subnet_id = aws_subnet.vpc_public_subnet.id
+  route_table_id = aws_route_table.vpc_public_route_table.id
+}
+
+# Route table Association with Private Subnet
+resource "aws_route_table_association" "vpc_private_subnet_route_table_assoc" {
+  subnet_id = aws_subnet.vpc_private_subnet.id
+  route_table_id = aws_route_table.vpc_private_route_table.id
+}
+
+#
 # create bucket to hold exported lambda function
 #
 
