@@ -24,6 +24,11 @@ and then `cat response.json` to make sure the expected response was received.
 curl "$(terraform output -raw base_url)/hello"
 ```
 
+- After adding a query parameter to the lambda function and API gateway endpoint, do it this way:
+
+```shell
+curl "$(terraform output -raw base_url)/hello?Name=Terraform"
+```
 ## Other references
 
 More about lambda + api gateways:
