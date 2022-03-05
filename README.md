@@ -27,3 +27,8 @@ and then `cat response.json` to make sure the expected response was received.
 ```shell
 curl "$(terraform output -raw base_url)/hello"
 ```
+
+## Other references
+
+- _Tutorial: Using Lambda with API Gateway_: https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway-tutorial.html
+- _Tutorial: Configuring a Lambda function to access Amazon RDS in an Amazon VPC_: https://docs.aws.amazon.com/lambda/latest/dg/services-rds-tutorial.html
