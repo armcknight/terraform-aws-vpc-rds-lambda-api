@@ -17,5 +17,7 @@ aws s3 ls $(terraform output -raw lambda_bucket_name) --profile armcknight
 - After creating the lambda function, invoke it with:
 
 ```shell
-aws lambda invoke --region=us-east-1 --function-name=$(terraform output -raw function_name) response.json
+aws lambda invoke --function-name=$(terraform output -raw function_name) response.json --region=us-east-1 --profile=armcknight
 ```
+
+and then `cat response.json` to make sure the expected response was received.
